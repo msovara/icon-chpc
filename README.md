@@ -312,7 +312,7 @@ ICON is licensed under BSD-3-Clause. See the ICON license file for details.
 ## Contact
 
 For issues with ICON installation on Lengau:
-- CHPC Support: support@chpc.ac.za
+- CHPC Support: https://users.chpc.ac.za/helpdesk/tickets/submit/
 - Check ICON installation: `/home/apps/chpc/earth/icon-2025.10-1-intel2021.3`
 
 ---
