@@ -92,8 +92,15 @@ module show chpc/earth/icon/2025.10-1-intel2021.3
 
 - Check ICON logs: `icon_run.err` and `icon_run.out`
 - Review configuration file syntax
+- **[DWD ICON Tutorial 2025](https://www.dwd.de/EN/ourservices/nwp_icon_tutorial/pdf_volume/icon_tutorial2025_en.pdf)**: Official tutorial with detailed examples
 - Consult ICON documentation: https://icon-model.org
 - Contact CHPC support: support@chpc.ac.za
+
+## Additional Resources
+
+- **Official Tutorial**: [DWD ICON Tutorial 2025 (PDF)](https://www.dwd.de/EN/ourservices/nwp_icon_tutorial/pdf_volume/icon_tutorial2025_en.pdf) - Comprehensive guide from German Weather Service
+- **Full Documentation**: See `README.md` in this repository
+- **Configuration Guide**: See `config/README.md`
 
 ---
 

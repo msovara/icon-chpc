@@ -197,9 +197,12 @@ Restart files: intervals, file names, checkpoint settings
 
 ## Resources
 
+- **[DWD ICON Tutorial 2025 (PDF)](https://www.dwd.de/EN/ourservices/nwp_icon_tutorial/pdf_volume/icon_tutorial2025_en.pdf)** - Official comprehensive tutorial from German Weather Service (DWD)
 - ICON User Guide: https://icon-model.org/documentation
+- ICON GitLab Repository: https://gitlab.dkrz.de/icon/icon-model
 - Fortran Namelist Format: Standard Fortran namelist syntax
 - ICON Examples: Check ICON installation for more examples
+- DKRZ ICON Documentation: https://www.dkrz.de/up/services/software/icon
 
 ## Getting Help
 

@@ -14,7 +14,8 @@ Complete guide for using the ICON (Icosahedral Nonhydrostatic) Model on the Leng
 6. [Input/Output Files](#inputoutput-files)
 7. [Examples](#examples)
 8. [Troubleshooting](#troubleshooting)
-9. [References](#references)
+9. [Learning Resources](#learning-resources)
+10. [References](#references)
 
 ## Quick Start
 
@@ -271,6 +272,7 @@ module load intel/2021.3
 - Verify file paths are correct
 - Ensure all required sections are present
 - Check file permissions
+- Refer to [DWD ICON Tutorial 2025](https://www.dwd.de/EN/ourservices/nwp_icon_tutorial/pdf_volume/icon_tutorial2025_en.pdf) for namelist examples
 
 #### 5. Memory Issues
 
@@ -279,20 +281,56 @@ module load intel/2021.3
 - Check available memory: `free -h`
 - Request more memory in PBS script
 
+#### 6. Grid File Issues
+
+- Verify grid file exists and is readable
+- Check grid file format (NetCDF)
+- Ensure grid resolution matches your configuration
+- For LAM runs, ensure boundary conditions are provided
+
+#### 7. Initial Condition Issues
+
+- Verify initial condition file format (NetCDF)
+- Check variable names match ICON requirements
+- Ensure grid compatibility between initial conditions and model grid
+- Verify time information is correct
+
 ### Getting Help
 
-- Check ICON documentation: `icon --help`
-- Review configuration examples in `config/` directory
-- Check log files for error messages
-- Consult ICON user manual
+- **ICON Help**: `icon --help`
+- **Configuration Examples**: See `config/` directory
+- **Log Files**: Check `icon_run.err` and `icon_run.out` for detailed error messages
+- **[DWD ICON Tutorial 2025](https://www.dwd.de/EN/ourservices/nwp_icon_tutorial/pdf_volume/icon_tutorial2025_en.pdf)**: Official tutorial with detailed examples
+- **ICON Documentation**: https://icon-model.org/documentation
+- **CHPC Support**: support@chpc.ac.za
 
-## References
+## Learning Resources
 
-### ICON Documentation
+For comprehensive learning materials, see **[LEARNING_RESOURCES.md](LEARNING_RESOURCES.md)** in this repository.
+
+### Essential Reading
+
+- **[DWD ICON Tutorial 2025 (PDF)](https://www.dwd.de/EN/ourservices/nwp_icon_tutorial/pdf_volume/icon_tutorial2025_en.pdf)** - **Highly Recommended**: Official comprehensive tutorial from German Weather Service (DWD)
+  - Covers ICON setup, configuration, namelist parameters, and best practices
+  - Includes detailed examples and troubleshooting guides
+  - Essential reference for all ICON users
+
+### Additional Resources
 
 - [ICON Model Website](https://icon-model.org)
 - [ICON User Guide](https://icon-model.org/documentation)
 - [DKRZ ICON Documentation](https://www.dkrz.de/up/services/software/icon)
+- [ICON GitLab Repository](https://gitlab.dkrz.de/icon/icon-model)
+
+## References
+
+### Official ICON Documentation
+
+- [ICON Model Website](https://icon-model.org)
+- [ICON User Guide](https://icon-model.org/documentation)
+- **[DWD ICON Tutorial 2025 (PDF)](https://www.dwd.de/EN/ourservices/nwp_icon_tutorial/pdf_volume/icon_tutorial2025_en.pdf)** - Official tutorial from German Weather Service (DWD)
+- [DKRZ ICON Documentation](https://www.dkrz.de/up/services/software/icon)
+- [ICON GitLab Repository](https://gitlab.dkrz.de/icon/icon-model)
 
 ### Lengau Cluster
 
