@@ -2,6 +2,11 @@
 ! Example configuration for a simple test run
 !
 ! This is a basic configuration template. Modify according to your needs.
+!
+! NOTE: This configuration can be used for both:
+!   - Global ICON simulations (with global grid files)
+!   - ICON-LAM (Limited-Area Model) simulations (with regional grid files)
+! The same ICON executable supports both modes.
 
 &run_nml
   ! General run control
