@@ -63,9 +63,23 @@ ICON uses Fortran namelist files (`.nml`) for configuration. Key configuration s
 3. **`&io_nml`** - Input/Output settings
 4. **`&atm_phy_nml`** - Atmospheric physics
 5. **`&atm_dyn_nml`** - Atmospheric dynamics
-6. **`&init_nml``** - Initialization settings
+6. **`&init_nml`** - Initialization settings
 
-See `config/` directory for example configuration files.
+### Available Configuration Templates
+
+See `config/` directory for example configuration files:
+
+- **`example_run.nml`** - Basic test configuration
+- **`production_run.nml`** - Production run template
+- **`atmosphere_only.nml`** - Atmosphere-only simulations (prescribed SST)
+- **`ocean_only.nml`** - Ocean-only simulations (prescribed atmospheric forcing)
+- **`coupled_atm_oce.nml`** - Fully coupled atmosphere-ocean simulations
+
+### Choosing the Right Configuration
+
+- **Atmosphere-only**: Use for weather forecasting, atmospheric research, or when SST is prescribed
+- **Ocean-only**: Use for ocean circulation studies or when atmospheric forcing is prescribed
+- **Coupled**: Use for climate simulations, long-term projections, or Earth system modeling
 
 ## Running ICON
 

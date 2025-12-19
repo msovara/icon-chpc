@@ -36,6 +36,54 @@ Production-ready configuration template for scientific simulations.
 - Production best practices
 - Comprehensive physics options
 
+### atmosphere_only.nml
+
+Atmosphere-only simulation configuration (no ocean coupling).
+
+**Use when:**
+- Weather forecasting
+- Climate simulations with prescribed SST
+- Atmospheric research
+- Regional climate modeling
+
+**Features:**
+- Atmospheric physics and dynamics
+- Prescribed sea surface temperature
+- No ocean model
+- Optimized for atmospheric studies
+
+### ocean_only.nml
+
+Ocean-only simulation configuration (no atmosphere coupling).
+
+**Use when:**
+- Ocean circulation studies
+- Ocean-only climate simulations
+- Ocean dynamics research
+- Prescribed atmospheric forcing
+
+**Features:**
+- Ocean physics and dynamics
+- Prescribed atmospheric forcing
+- No atmosphere model
+- Optimized for ocean studies
+
+### coupled_atm_oce.nml
+
+Fully coupled atmosphere-ocean simulation configuration.
+
+**Use when:**
+- Climate simulations
+- Long-term climate projections
+- Earth system modeling
+- Coupled climate research
+
+**Features:**
+- Full atmosphere-ocean coupling
+- Sea ice model (optional)
+- Two-way interaction
+- Climate system modeling
+
 ## Configuration File Format
 
 ICON uses Fortran namelist format. Key points:
