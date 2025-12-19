@@ -302,7 +302,7 @@ module load intel/2021.3
 - **Log Files**: Check `icon_run.err` and `icon_run.out` for detailed error messages
 - **[DWD ICON Tutorial 2025](https://www.dwd.de/EN/ourservices/nwp_icon_tutorial/pdf_volume/icon_tutorial2025_en.pdf)**: Official tutorial with detailed examples
 - **ICON Documentation**: https://icon-model.org/documentation
-- **CHPC Support**: support@chpc.ac.za
+- **CHPC Support**:  https://users.chpc.ac.za/helpdesk/tickets/submit/
 
 ## Learning Resources
 
