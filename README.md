@@ -296,8 +296,8 @@ module load intel/2021.3
 
 ### Lengau Cluster
 
-- [CHPC Documentation](https://www.chpc.ac.za)
-- [Lengau User Guide](https://www.chpc.ac.za/documentation)
+- [CHPC Documentation](https://wiki.chpc.ac.za/_media/chpc:chpc_accounts_policy_v2.7.pdf)
+- [Lengau User Guide](https://wiki.chpc.ac.za/)
 
 ### Related Tools
 
