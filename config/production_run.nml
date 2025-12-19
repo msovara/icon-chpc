@@ -1,0 +1,120 @@
+! ICON Model Configuration File
+! Production run configuration template
+!
+! This template is for longer production runs. Adjust parameters as needed.
+
+&run_nml
+  ! General run control
+  num_lev          = 90              ! Number of vertical levels (higher for production)
+  nsteps           = 2880            ! Number of time steps (10 days at 5 min timestep)
+  dtime            = 300.0           ! Time step in seconds (5 minutes)
+  lrestart         = .false.         ! Start from restart file
+  restart_filename = ""              ! Restart file path
+  output           = "icon_output"   ! Output file prefix
+  loutput          = .true.          ! Write output files
+  output_nml       = "output.nml"    ! Output namelist file
+  luse_radarfdbk   = .false.         ! Use radar feedback
+  luse_synsat      = .false.         ! Use synthetic satellite data
+/
+
+&grid_nml
+  ! Grid configuration
+  ! Use appropriate grid file for your resolution
+  ! R2B04 = ~13km, R2B05 = ~6.5km, R2B06 = ~3.2km, R2B07 = ~1.6km
+  grid_filename    = "icon_grid_R2B05.nc"  ! ICON grid file
+/
+
+&io_nml
+  ! Input/Output settings
+  itype_comm       = 1               ! Communication type
+  num_io_procs     = 4               ! Number of I/O processes (optimize for your system)
+  num_restart_procs = 2              ! Number of restart I/O processes
+  async_prefetch   = .true.          ! Asynchronous prefetching (recommended for production)
+  lnetcdf_flt64_output = .false.     ! Use 64-bit floats in NetCDF output
+/
+
+&atm_phy_nml
+  ! Atmospheric physics parameterization
+  inwp_gscp        = 2               ! Microphysics: 2-moment scheme (more accurate)
+  inwp_convection  = 1               ! Convection: Tiedtke scheme
+  inwp_radiation   = 2               ! Radiation: RRTMG scheme
+  inwp_turb        = 1               ! Turbulence: 1D TKE
+  inwp_surface     = 1               ! Surface: TERRA
+  inwp_sso         = 1               ! Subgrid-scale orography
+  inwp_gwd         = 1               ! Gravity wave drag
+  latm_above_top   = .false.         ! Atmosphere above model top
+  lradtopo         = .true.          ! Topographic radiation
+/
+
+&atm_dyn_nml
+  ! Atmospheric dynamics
+  ivctype          = 2               ! Vertical coordinate: SLEVE
+  itime_scheme     = 4               ! Time integration: 4th order Runge-Kutta
+  divdamp_order    = 4               ! Divergence damping order
+  divdamp_type     = 2               ! Divergence damping type
+  divdamp_fac      = 0.004           ! Divergence damping factor
+  lcoriolis        = .true.          ! Coriolis force
+  ldeepatmo        = .false.         ! Deep atmosphere
+  ltransport       = .true.          ! Transport scheme
+  lhdiff_temp      = .true.          ! Horizontal diffusion of temperature
+  lhdiff_vn        = .true.          ! Horizontal diffusion of velocity
+  hdiff_order      = 5               ! Horizontal diffusion order
+/
+
+&init_nml
+  ! Initialization settings
+  init_mode        = 2               ! Initialization: read from file
+  iforcing         = 3               ! Forcing: NWP mode
+  lread_ana        = .true.          ! Read analysis data
+  ana_filename     = "initial_conditions.nc"  ! Analysis file path
+  lvert_interp     = .true.          ! Vertical interpolation
+  lp2c             = .false.         ! Pressure to coordinate conversion
+/
+
+&tracer_nml
+  ! Tracer configuration
+  ntracer          = 5               ! Number of tracers (qv, qc, qi, qr, qs)
+  iqv              = 1               ! Water vapor tracer index
+  iqc              = 2               ! Cloud water tracer index
+  iqi              = 3               ! Cloud ice tracer index
+  iqr              = 4               ! Rain tracer index
+  iqs              = 5               ! Snow tracer index
+/
+
+&output_nml
+  ! Output configuration
+  output_bounds    = 0.0, 240.0      ! Output time bounds (0 to 10 days in hours)
+  filetype         = 4               ! Output file type (4=NetCDF)
+  dom              = -1              ! Domain output (-1=all domains)
+  output_start     = 0.0             ! Start time for output (hours)
+  output_end       = 240.0            ! End time for output (hours)
+  output_interval  = 6.0              ! Output interval (6 hours)
+  ml_varlist       = "temp", "pres", "u", "v", "w", "qv", "qc", "qi", "qr", "qs", "ps", "tsfc"
+/
+
+&restart_nml
+  ! Restart file configuration
+  write_restart    = .true.          ! Write restart files
+  restart_interval = 24.0            ! Restart file interval (24 hours)
+  restart_filename = "restart_icon.nc"  ! Restart file name
+/
+
+&checkpoint_nml
+  ! Checkpoint configuration
+  checkpoint_interval = 6.0          ! Checkpoint interval (6 hours)
+/
+
+&diagnostics_nml
+  ! Diagnostics configuration
+  ldiagnos         = .true.          ! Enable diagnostics
+  ldiagprof        = .true.          ! Profile diagnostics
+  ldiagflux        = .true.          ! Flux diagnostics
+/
+
+&nwp_phy_nml
+  ! NWP physics configuration
+  luse_cloudextinction = .true.      ! Use cloud extinction
+  luse_radarfdbk   = .false.         ! Use radar feedback
+  luse_synsat      = .false.         ! Use synthetic satellite data
+/
+

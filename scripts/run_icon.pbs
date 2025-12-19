@@ -1,0 +1,71 @@
+#!/bin/bash
+#PBS -N icon_run
+#PBS -l select=1:ncpus=24:mpiprocs=24:ompthreads=1
+#PBS -l walltime=02:00:00
+#PBS -q normal
+#PBS -o icon_run.out
+#PBS -e icon_run.err
+#PBS -m abe
+#PBS -M your.email@example.com
+
+# ICON Model PBS Job Script
+# This script runs ICON on the Lengau cluster
+#
+# Usage:
+#   qsub run_icon.pbs
+#
+# Modify the following variables as needed:
+#   - ncpus: Number of CPUs (should match mpiprocs * ompthreads)
+#   - mpiprocs: Number of MPI processes
+#   - ompthreads: Number of OpenMP threads per MPI process
+#   - walltime: Maximum wall clock time
+#   - config_file: ICON configuration file
+
+# Change to working directory
+cd $PBS_O_WORKDIR
+
+# Load required modules
+module load chpc/earth/icon/2025.10-1-intel2021.3
+
+# Set OpenMP threads (if using hybrid MPI+OpenMP)
+export OMP_NUM_THREADS=${PBS_NUM_PPN}
+
+# ICON configuration file
+CONFIG_FILE="config/example_run.nml"
+
+# Output directories
+OUTPUT_DIR="${PBS_O_WORKDIR}/output"
+RESTART_DIR="${PBS_O_WORKDIR}/restart"
+mkdir -p ${OUTPUT_DIR} ${RESTART_DIR}
+
+# Run ICON
+echo "=========================================="
+echo "Starting ICON run"
+echo "Date: $(date)"
+echo "Host: $(hostname)"
+echo "Working directory: $(pwd)"
+echo "MPI processes: ${PBS_NP}"
+echo "OpenMP threads: ${OMP_NUM_THREADS}"
+echo "Configuration: ${CONFIG_FILE}"
+echo "=========================================="
+
+# Run ICON with MPI
+mpirun -np ${PBS_NP} icon -c ${CONFIG_FILE}
+
+# Check exit status
+EXIT_CODE=$?
+
+if [ ${EXIT_CODE} -eq 0 ]; then
+    echo "=========================================="
+    echo "ICON run completed successfully"
+    echo "Date: $(date)"
+    echo "=========================================="
+else
+    echo "=========================================="
+    echo "ICON run failed with exit code: ${EXIT_CODE}"
+    echo "Date: $(date)"
+    echo "Check error log: icon_run.err"
+    echo "=========================================="
+    exit ${EXIT_CODE}
+fi
+

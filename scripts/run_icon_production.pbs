@@ -1,0 +1,93 @@
+#!/bin/bash
+#PBS -N icon_production
+#PBS -l select=4:ncpus=24:mpiprocs=24:ompthreads=1
+#PBS -l walltime=48:00:00
+#PBS -q normal
+#PBS -o icon_production.out
+#PBS -e icon_production.err
+#PBS -m abe
+#PBS -M your.email@example.com
+
+# ICON Model Production Run PBS Job Script
+# This script runs a production ICON simulation on the Lengau cluster
+#
+# Usage:
+#   qsub run_icon_production.pbs
+#
+# This script is configured for:
+#   - 4 nodes, 24 CPUs per node = 96 total CPUs
+#   - 48 hour walltime
+#   - Production configuration
+
+# Change to working directory
+cd $PBS_O_WORKDIR
+
+# Load required modules
+module load chpc/earth/icon/2025.10-1-intel2021.3
+
+# Set OpenMP threads
+export OMP_NUM_THREADS=1
+
+# ICON configuration file
+CONFIG_FILE="config/production_run.nml"
+
+# Input/Output directories
+INPUT_DIR="${PBS_O_WORKDIR}/input"
+OUTPUT_DIR="${PBS_O_WORKDIR}/output"
+RESTART_DIR="${PBS_O_WORKDIR}/restart"
+LOG_DIR="${PBS_O_WORKDIR}/logs"
+
+mkdir -p ${INPUT_DIR} ${OUTPUT_DIR} ${RESTART_DIR} ${LOG_DIR}
+
+# Set environment variables for ICON
+export ICON_INPUT_DIR=${INPUT_DIR}
+export ICON_OUTPUT_DIR=${OUTPUT_DIR}
+export ICON_RESTART_DIR=${RESTART_DIR}
+
+# Run ICON
+echo "=========================================="
+echo "Starting ICON Production Run"
+echo "Date: $(date)"
+echo "Job ID: ${PBS_JOBID}"
+echo "Host: $(hostname)"
+echo "Working directory: $(pwd)"
+echo "Total MPI processes: ${PBS_NP}"
+echo "Nodes: ${PBS_NUM_NODES}"
+echo "CPUs per node: ${PBS_NUM_PPN}"
+echo "OpenMP threads: ${OMP_NUM_THREADS}"
+echo "Configuration: ${CONFIG_FILE}"
+echo "=========================================="
+
+# Run ICON with MPI
+# Use all available CPUs
+mpirun -np ${PBS_NP} icon -c ${CONFIG_FILE} > ${LOG_DIR}/icon_${PBS_JOBID}.log 2>&1
+
+# Check exit status
+EXIT_CODE=$?
+
+if [ ${EXIT_CODE} -eq 0 ]; then
+    echo "=========================================="
+    echo "ICON Production Run Completed Successfully"
+    echo "Date: $(date)"
+    echo "Output directory: ${OUTPUT_DIR}"
+    echo "Restart directory: ${RESTART_DIR}"
+    echo "=========================================="
+    
+    # List output files
+    echo "Output files:"
+    ls -lh ${OUTPUT_DIR}/*.nc 2>/dev/null | head -10
+    
+    # List restart files
+    echo "Restart files:"
+    ls -lh ${RESTART_DIR}/*.nc 2>/dev/null | head -5
+else
+    echo "=========================================="
+    echo "ICON Production Run Failed"
+    echo "Exit code: ${EXIT_CODE}"
+    echo "Date: $(date)"
+    echo "Check error log: icon_production.err"
+    echo "Check ICON log: ${LOG_DIR}/icon_${PBS_JOBID}.log"
+    echo "=========================================="
+    exit ${EXIT_CODE}
+fi
+

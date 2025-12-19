@@ -1,0 +1,47 @@
+# ICON Model Usage Repository - Git Ignore File
+
+# Output files
+output/
+*.nc
+*.grb
+*.grb2
+
+# Restart files
+restart/
+*.restart.nc
+
+# Log files
+logs/
+*.log
+*.out
+*.err
+
+# Temporary files
+tmp/
+*.tmp
+*.bak
+*~
+
+# PBS job files
+*.pbs.o*
+*.pbs.e*
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# User-specific files
+user_config/
+local_*
+

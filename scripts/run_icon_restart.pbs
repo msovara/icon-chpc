@@ -1,0 +1,56 @@
+#!/bin/bash
+#PBS -N icon_restart
+#PBS -l select=1:ncpus=24:mpiprocs=24:ompthreads=1
+#PBS -l walltime=02:00:00
+#PBS -q normal
+#PBS -o icon_restart.out
+#PBS -e icon_restart.err
+
+# ICON Model Restart Run PBS Job Script
+# This script continues an ICON simulation from a restart file
+#
+# Usage:
+#   1. Edit this script to set RESTART_FILE
+#   2. qsub run_icon_restart.pbs
+
+# Change to working directory
+cd $PBS_O_WORKDIR
+
+# Load required modules
+module load chpc/earth/icon/2025.10-1-intel2021.3
+
+# Set OpenMP threads
+export OMP_NUM_THREADS=1
+
+# Restart file (modify this path)
+RESTART_FILE="${PBS_O_WORKDIR}/restart/restart_icon.nc"
+
+# Configuration file (should have lrestart = .true.)
+CONFIG_FILE="config/restart_run.nml"
+
+# Check if restart file exists
+if [ ! -f "${RESTART_FILE}" ]; then
+    echo "ERROR: Restart file not found: ${RESTART_FILE}"
+    exit 1
+fi
+
+echo "=========================================="
+echo "Starting ICON Restart Run"
+echo "Date: $(date)"
+echo "Restart file: ${RESTART_FILE}"
+echo "Configuration: ${CONFIG_FILE}"
+echo "MPI processes: ${PBS_NP}"
+echo "=========================================="
+
+# Run ICON with restart
+mpirun -np ${PBS_NP} icon -c ${CONFIG_FILE}
+
+EXIT_CODE=$?
+
+if [ ${EXIT_CODE} -eq 0 ]; then
+    echo "ICON restart run completed successfully"
+else
+    echo "ICON restart run failed with exit code: ${EXIT_CODE}"
+    exit ${EXIT_CODE}
+fi
+

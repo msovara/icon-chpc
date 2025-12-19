@@ -1,0 +1,94 @@
+! ICON Model Configuration File
+! Example configuration for a simple test run
+!
+! This is a basic configuration template. Modify according to your needs.
+
+&run_nml
+  ! General run control
+  num_lev          = 60              ! Number of vertical levels
+  nsteps           = 100             ! Number of time steps
+  dtime            = 300.0           ! Time step in seconds
+  lrestart         = .false.        ! Start from restart file
+  restart_filename = ""              ! Restart file path (if lrestart = .true.)
+  output           = "output"        ! Output file prefix
+  loutput          = .true.          ! Write output files
+  output_nml       = "output.nml"    ! Output namelist file
+/
+
+&grid_nml
+  ! Grid configuration
+  grid_filename    = "icon_grid.nc" ! ICON grid file
+  ! For standard ICON grids, use predefined grid files
+  ! Example: R2B04, R2B05, R2B06, etc.
+/
+
+&io_nml
+  ! Input/Output settings
+  itype_comm       = 1               ! Communication type
+  num_io_procs    = 0                ! Number of I/O processes (0 = all)
+  num_restart_procs = 0              ! Number of restart I/O processes
+  async_prefetch   = .false.         ! Asynchronous prefetching
+/
+
+&atm_phy_nml
+  ! Atmospheric physics parameterization
+  inwp_gscp        = 1               ! Microphysics scheme (1=one-moment, 2=two-moment)
+  inwp_convection  = 1               ! Convection scheme (1=Tiedtke, 2=shallow)
+  inwp_radiation   = 1               ! Radiation scheme (1=RRTM, 2=RRTMG)
+  inwp_turb        = 1               ! Turbulence scheme (1=1D TKE)
+  inwp_surface     = 1               ! Surface scheme (1=TERRA)
+  latm_above_top   = .false.         ! Atmosphere above model top
+/
+
+&atm_dyn_nml
+  ! Atmospheric dynamics
+  ivctype          = 1               ! Vertical coordinate type
+  itime_scheme     = 1               ! Time integration scheme
+  divdamp_order    = 2               ! Divergence damping order
+  divdamp_type     = 2               ! Divergence damping type
+  lcoriolis        = .true.          ! Coriolis force
+  ldeepatmo        = .false.         ! Deep atmosphere
+/
+
+&init_nml
+  ! Initialization settings
+  init_mode        = 2               ! Initialization mode
+                                   ! 1=analytic, 2=read from file, 3=restart
+  iforcing         = 0               ! Forcing type
+  lread_ana        = .false.         ! Read analysis data
+  ana_filename     = ""              ! Analysis file path
+/
+
+&tracer_nml
+  ! Tracer configuration
+  ntracer          = 0               ! Number of tracers
+/
+
+&output_nml
+  ! Output configuration
+  output_bounds    = 0.0, 0.0        ! Output time bounds (start, end in hours)
+  filetype         = 4               ! Output file type (4=NetCDF)
+  dom              = -1              ! Domain output (-1=all domains)
+  output_start     = 0.0              ! Start time for output (hours)
+  output_end       = 24.0             ! End time for output (hours)
+  output_interval  = 1.0              ! Output interval (hours)
+  ml_varlist       = "temp", "pres", "u", "v", "w", "qv"  ! Variables to output
+/
+
+&restart_nml
+  ! Restart file configuration
+  write_restart    = .true.          ! Write restart files
+  restart_interval = 6.0             ! Restart file interval (hours)
+  restart_filename = "restart.nc"    ! Restart file name
+/
+
+&checkpoint_nml
+  ! Checkpoint configuration
+  checkpoint_interval = 0.0          ! Checkpoint interval (0 = disabled)
+/
+
+&diagnostics_nml
+  ! Diagnostics configuration
+  ldiagnos         = .true.          ! Enable diagnostics
+/
+
