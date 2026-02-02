@@ -118,3 +118,16 @@ To switch between global and LAM mode:
 
 If you need ICON-LAM specifically, you can configure it using limited-area grids and boundary conditions - no separate build is needed!
 
+
+
+
+
+
+
+
+
+
+
+
+
+
