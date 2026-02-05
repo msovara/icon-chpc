@@ -1,0 +1,12 @@
+! ICON output namelist (referenced from main run nml)
+! Adjust intervals and varlist for monthly means when doing full 1980-2020.
+
+&output_nml
+  output_bounds    = 0.0, 240.0
+  filetype         = 4
+  dom              = -1
+  output_start     = 0.0
+  output_end       = 240.0
+  output_interval  = 6.0
+  ml_varlist       = "temp", "pres", "u", "v", "w", "qv", "qc", "qi", "qr", "qs", "ps", "tsfc"
+/

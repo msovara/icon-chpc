@@ -1,0 +1,103 @@
+! ICON short test (sanity run)
+! Run from a directory that contains config/ and input/. Put grid and init in input/, then: qsub scripts/run_icon_baseline.pbs
+
+&run_nml
+  num_lev          = 90
+  nsteps           = 12
+  dtime            = 300.0
+  lrestart         = .false.
+  restart_filename = ""
+  output           = "icon_test"
+  loutput          = .true.
+  output_nml       = "config/output.nml"
+  luse_radarfdbk   = .false.
+  luse_synsat      = .false.
+/
+
+&grid_nml
+  grid_filename    = "input/icon_grid_R2B05.nc"
+/
+
+&io_nml
+  itype_comm       = 1
+  num_io_procs     = 4
+  num_restart_procs = 2
+  async_prefetch   = .true.
+  lnetcdf_flt64_output = .false.
+/
+
+&atm_phy_nml
+  inwp_gscp        = 2
+  inwp_convection  = 1
+  inwp_radiation   = 2
+  inwp_turb        = 1
+  inwp_surface     = 1
+  inwp_sso         = 1
+  inwp_gwd         = 1
+  latm_above_top   = .false.
+  lradtopo         = .true.
+/
+
+&atm_dyn_nml
+  ivctype          = 2
+  itime_scheme     = 4
+  divdamp_order    = 4
+  divdamp_type     = 2
+  divdamp_fac      = 0.004
+  lcoriolis        = .true.
+  ldeepatmo        = .false.
+  ltransport       = .true.
+  lhdiff_temp      = .true.
+  lhdiff_vn        = .true.
+  hdiff_order      = 5
+/
+
+&init_nml
+  init_mode        = 2
+  iforcing         = 3
+  lread_ana        = .true.
+  ana_filename     = "input/initial_conditions.nc"
+  lvert_interp     = .true.
+  lp2c             = .false.
+/
+
+&tracer_nml
+  ntracer          = 5
+  iqv              = 1
+  iqc              = 2
+  iqi              = 3
+  iqr              = 4
+  iqs              = 5
+/
+
+&output_nml
+  output_bounds    = 0.0, 2.0
+  filetype         = 4
+  dom              = -1
+  output_start     = 0.0
+  output_end       = 2.0
+  output_interval  = 1.0
+  ml_varlist       = "temp", "pres", "u", "v", "w", "qv", "qc", "qi", "qr", "qs", "ps", "tsfc"
+/
+
+&restart_nml
+  write_restart    = .true.
+  restart_interval = 24.0
+  restart_filename = "restart/restart_icon.nc"
+/
+
+&checkpoint_nml
+  checkpoint_interval = 6.0
+/
+
+&diagnostics_nml
+  ldiagnos         = .true.
+  ldiagprof        = .true.
+  ldiagflux        = .true.
+/
+
+&nwp_phy_nml
+  luse_cloudextinction = .true.
+  luse_radarfdbk   = .false.
+  luse_synsat      = .false.
+/

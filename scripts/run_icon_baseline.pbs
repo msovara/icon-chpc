@@ -1,0 +1,44 @@
+#!/bin/bash
+#PBS -N icon_baseline
+#PBS -P ERTH0904
+#PBS -l select=4:ncpus=24:mpiprocs=24:ompthreads=1
+#PBS -l walltime=01:00:00
+#PBS -q normal
+#PBS -o icon_baseline.out
+#PBS -e icon_baseline.err
+#PBS -m abe
+#PBS -M your.email@example.com
+
+# ICON baseline run — use from a run directory that contains config/ and scripts/
+# Usage: cd /path/to/your/icon_run_directory && qsub scripts/run_icon_baseline.pbs
+# First run uses CONFIG_FILE=config/icon_test_short.nml. For full run set CONFIG_FILE=config/icon_1980_2020.nml and increase walltime.
+
+cd $PBS_O_WORKDIR
+module load chpc/earth/icon/2025.10-1-intel2021.3
+# Fix icon symbol/runtime on Lengau: Intel 2021.3 compiler + Fortran runtime (intel64_lin). See ICON_SYMBOL_ERROR_FIX.md
+export LD_LIBRARY_PATH=/home/apps/chpc/compmech/compilers/intel_2021.3/oneapi/compiler/2021.3.0/linux/compiler/lib/intel64_lin:/home/apps/chpc/compmech/compilers/intel_2021.3/oneapi/compiler/2021.3.0/linux/compiler/lib:/home/apps/chpc/compmech/compilers/intel_2021.3/oneapi/compiler/2021.3.0/linux/lib:$LD_LIBRARY_PATH
+export OMP_NUM_THREADS=1
+
+CONFIG_FILE="${CONFIG_FILE:-config/icon_test_short.nml}"
+INPUT_DIR="${PBS_O_WORKDIR}/input"
+OUTPUT_DIR="${PBS_O_WORKDIR}/output"
+RESTART_DIR="${PBS_O_WORKDIR}/restart"
+LOG_DIR="${PBS_O_WORKDIR}/logs"
+mkdir -p ${INPUT_DIR} ${OUTPUT_DIR} ${RESTART_DIR} ${LOG_DIR}
+
+nproc=${PBS_NP}
+exe=icon
+logfile="${LOG_DIR}/icon_${PBS_JOBID}.log"
+
+echo "=========================================="
+echo "ICON baseline run: ${CONFIG_FILE}"
+echo "Date: $(date)  Job: ${PBS_JOBID}"
+echo "=========================================="
+mpirun -np $nproc $exe -c ${CONFIG_FILE} &> "$logfile"
+EXIT_CODE=$?
+if [ ${EXIT_CODE} -eq 0 ]; then
+  echo "ICON completed successfully."
+else
+  echo "ICON failed with exit code ${EXIT_CODE}."
+  exit ${EXIT_CODE}
+fi

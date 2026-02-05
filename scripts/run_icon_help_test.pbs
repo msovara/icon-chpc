@@ -1,0 +1,24 @@
+#!/bin/bash
+#PBS -N icon_help_test
+#PBS -P ERTH0904
+#PBS -l select=1:ncpus=4:mpiprocs=4
+#PBS -l walltime=00:05:00
+#PBS -q serial
+#PBS -o icon_help_test.out
+#PBS -e icon_help_test.err
+
+# Quick test that ICON runs on a compute node (no grid/init needed).
+# Run from your icon run directory: qsub scripts/run_icon_help_test.pbs
+
+cd $PBS_O_WORKDIR
+module load chpc/earth/icon/2025.10-1-intel2021.3
+export LD_LIBRARY_PATH=/home/apps/chpc/compmech/compilers/intel_2021.3/oneapi/compiler/2021.3.0/linux/compiler/lib/intel64_lin:/home/apps/chpc/compmech/compilers/intel_2021.3/oneapi/compiler/2021.3.0/linux/compiler/lib:/home/apps/chpc/compmech/compilers/intel_2021.3/oneapi/compiler/2021.3.0/linux/lib:$LD_LIBRARY_PATH
+export OMP_NUM_THREADS=1
+
+nproc=${PBS_NP}
+exe=icon
+logfile="icon_help_test.out"
+
+echo "Testing icon on compute node..."
+mpirun -np $nproc $exe --help &> "$logfile"
+echo "Exit code: $?"
